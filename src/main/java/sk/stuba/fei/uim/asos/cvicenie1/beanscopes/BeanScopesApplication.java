@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.asos.cvicenie1.beanscopes;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -15,8 +14,12 @@ public class BeanScopesApplication {
         SpringApplication.run(BeanScopesApplication.class, args);
     }
 
-    @Autowired
-    private ApplicationContext appContext;
+
+    private final ApplicationContext appContext;
+
+    public BeanScopesApplication(ApplicationContext appContext) {
+        this.appContext = appContext;
+    }
 
     @GetMapping("/")
     public String getNames() throws InterruptedException {
@@ -32,7 +35,7 @@ public class BeanScopesApplication {
         builder.append(sessionBean.getName()).append("\n");
 
         Thread.sleep(500);
-        builder.append("\n");
+        builder.append("\n----- After 500ms -----\n\n");
 
         singletonBean = appContext.getBean(SingletonBean.class);
         prototypeBean = appContext.getBean(PrototypeBean.class);
